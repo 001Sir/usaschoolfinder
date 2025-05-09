@@ -1,22 +1,17 @@
-# Use official Node.js LTS image
+# Build frontend
+FROM node:20-alpine as frontend
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
+
+# Build backend
 FROM node:20-alpine
-
-# Set working directory
 WORKDIR /app
-
-# Copy backend files
-COPY package*.json ./
-COPY index.js ./
-COPY data ./data
-
-# Copy frontend build
-COPY build ./build
-
-# Install dependencies
+COPY backend/package*.json ./
 RUN npm install --production
-
-# Expose port
+COPY backend/ ./
+COPY --from=frontend /app/frontend/build ./build
 EXPOSE 4000
-
-# Start the server
 CMD ["node", "index.js"] 
