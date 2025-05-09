@@ -1,0 +1,11 @@
+name: usaschoolfinder
+services:
+  - name: web
+    image:
+      registry: registry.digitalocean.com/nocodb-registry/usaschoolfinder:latest
+      registry_type: DOCR
+    http_port: 4000
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    routes:
+      - path: / 
