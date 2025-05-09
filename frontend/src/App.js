@@ -91,9 +91,31 @@ function App() {
             {error && <div style={{ color: '#b22234', marginTop: 10, fontWeight: 600 }}>{error}</div>}
             {result && (
               <div style={{ marginTop: 20, fontSize: 16 }}>
-                <b>District:</b> {result.district?.properties?.NAME || 'No district name found'}
+                <b>District:</b> {result.district?.properties?.NAME || result.district?.properties?.name || 'No district name found'}
+                <br />
+                <b>District ID:</b> {result.district?.properties?.UNSDLEA || result.district?.properties?.GEOID || result.district?.properties?.DISTRICTID || 'N/A'}
+                <br />
+                <b>Elementary School:</b> {result.district?.properties?.elementary || 'N/A'}
+                <br />
+                <b>Middle School:</b> {result.district?.properties?.middle || 'N/A'}
+                <br />
+                <b>High School:</b> {result.district?.properties?.high || 'N/A'}
                 <br />
                 <b>Location:</b> {lat}, {lon}
+                <br />
+                <details style={{ marginTop: 10 }}>
+                  <summary style={{ cursor: 'pointer', color: '#3c3b6e', fontWeight: 600 }}>Show all district data</summary>
+                  <table style={{ fontSize: 14, marginTop: 8, borderCollapse: 'collapse' }}>
+                    <tbody>
+                      {Object.entries(result.district?.properties || {}).map(([k, v]) => (
+                        <tr key={k}>
+                          <td style={{ fontWeight: 600, padding: '2px 8px', border: '1px solid #eee' }}>{k}</td>
+                          <td style={{ padding: '2px 8px', border: '1px solid #eee' }}>{v?.toString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </details>
               </div>
             )}
           </div>
